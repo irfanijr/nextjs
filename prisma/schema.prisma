@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Movie {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  posterUrl   String
+  releaseYear Int
+  duration    Int
+  rating      Float
+  createdAt   DateTime @default(now())
+  author User? @relation(fields: [authorId], references: [id])
+  authorId Int? 
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  name String?
+  movie Movie[]
+  
+}
+model Shows {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  totalSeasons Int
+  releaseYear  Int
+  genre        String
+  posterUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
