@@ -21,7 +21,7 @@ async function Page() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-100">
-        <h1 className="text-4xl  font-semibold text-slate-900">Movie</h1>
+        <h1 className="text-4xl  font-semibold text-slate-900">List Movie</h1>
 
         <Link
           href="/movies/create"
