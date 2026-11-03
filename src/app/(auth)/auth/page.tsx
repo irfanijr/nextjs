@@ -1,6 +1,6 @@
 // "use client";
 
-import { login } from "@/actions/login";
+import { login } from "../../actions/login";
 import { Button } from "@/components/ui/button";
 import {
   Card,

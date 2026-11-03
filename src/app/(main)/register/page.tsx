@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { useActionState } from 'react';
-import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useActionState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
 
   const submitForm = async (
     prevState: string | null,
-    formData: FormData
+    formData: FormData,
   ): Promise<string | null> => {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
-          role: 'admin',
+          role: "admin",
         },
       },
     });
@@ -29,15 +29,21 @@ export default function RegisterPage() {
       return error.message;
     }
 
-    router.push('/login');
+    router.push("/login");
     return null;
   };
 
-  const [errorMessage, formAction, isPending] = useActionState(submitForm, null);
+  const [errorMessage, formAction, isPending] = useActionState(
+    submitForm,
+    null,
+  );
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-      <form action={formAction} className="w-full max-w-sm rounded-xl bg-white p-6 shadow-md space-y-4">
+      <form
+        action={formAction}
+        className="w-full max-w-sm rounded-xl bg-white p-6 shadow-md space-y-4"
+      >
         <h1 className="text-xl font-bold text-gray-800">Daftar Akun</h1>
 
         {errorMessage && (
@@ -68,11 +74,11 @@ export default function RegisterPage() {
           disabled={isPending}
           className="w-full rounded-lg bg-indigo-600 py-2.5 text-sm font-semibold text-white hover:bg-indigo-500 disabled:opacity-50"
         >
-          {isPending ? 'Mendaftarkan...' : 'Daftar'}
+          {isPending ? "Mendaftarkan..." : "Daftar"}
         </button>
 
         <p className="text-center text-xs text-gray-500">
-          Sudah punya akun?{' '}
+          Sudah punya akun?{" "}
           <Link href="/login" className="text-indigo-600 font-semibold">
             Masuk
           </Link>
