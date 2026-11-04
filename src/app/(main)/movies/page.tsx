@@ -3,6 +3,7 @@ import { EmptyState } from "@/components/EmptyState";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
 import Link from "next/link";
+import { logout } from "@/app/actions/login";
 
 async function Page() {
   const movies = await prisma.movie.findMany();
@@ -21,14 +22,25 @@ async function Page() {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8 pb-4 border-b border-slate-100">
-        <h1 className="text-4xl  font-semibold text-slate-900">List Movie</h1>
+        <h1 className="text-4xl font-semibold text-slate-900">List Movie</h1>
 
-        <Link
-          href="/movies/create"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm px-4 py-2.5 rounded-xl flex items-center gap-1.5"
-        >
-          <span>+</span> Tambah Movie
-        </Link>
+        <div className="flex items-center gap-3">
+          <form action={logout}>
+            <button
+              type="submit"
+              className="px-4 py-2.5 text-sm font-medium text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              Keluar / Logout
+            </button>
+          </form>
+
+          <Link
+            href="/movies/create"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm px-4 py-2.5 rounded-xl flex items-center gap-1.5 transition-colors"
+          >
+            <span>+</span> Tambah Movie
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
@@ -40,7 +52,6 @@ async function Page() {
             <Link
               href={`/movies/${movie.id}/edit`}
               className="px-4 py-5 flex flex-col gap-4 rounded-2xl overflow-hidden"
-              key={movie.id}
             >
               <div className="w-full aspect-[1/1.3] relative rounded-2xl overflow-hidden bg-red-300">
                 <Image
@@ -52,10 +63,12 @@ async function Page() {
               </div>
               <div>
                 <h3 className="font-semibold text-xl">{movie.title}</h3>
-                <p className="text-sm mt-1">{movie.description}</p>
-                <div className="flex items-center gap-1.5 text-sm text-slate-500 mt-2 ">
-                  <p>Duration: {movie.duration}</p>
-                  <p>Rating: {movie.rating}</p>
+                <p className="text-sm mt-1 text-slate-600 line-clamp-2">
+                  {movie.description}
+                </p>
+                <div className="flex items-center gap-4 text-sm text-slate-500 mt-2">
+                  <p>Duration: {movie.duration}m</p>
+                  <p>Rating: {movie.rating}/10</p>
                 </div>
               </div>
             </Link>

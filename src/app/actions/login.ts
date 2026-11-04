@@ -27,6 +27,13 @@ export async function login(prevState: string | null, formData: FormData): Promi
         return "Akses ditolak! Akun Kamu terdaftar sebagai User. Hanya Admin yang bisa masuk.";
 }
 
+
     revalidatePath("/movies");
     redirect("/movies");
+}
+export async function logout() {
+    const supabase = await createServerSupabase();
+    await supabase.auth.signOut();
+    revalidatePath("/movies");
+    redirect("/login");
 }

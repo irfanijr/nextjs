@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="id" className={cn("font-mono", jetbrainsMono.variable)}>
       <body className="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-        <Navbar />
+        
 
         <main className="max-w-6xl mx-auto px-4 py-12 flex-1 w-full">
                <Toaster />

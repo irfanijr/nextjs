@@ -11,10 +11,11 @@ const Schema = z.object({
     title: z.string().min(3),
     description: z.string().min(5),
     duration: z.coerce.number().min(1),
-    rating: z.coerce.number().min(1),
+    rating: z.coerce.number().min(1, "Rating minimal 1").max(10, "Rating maksimal adalah 10"),
     releaseYear: z.coerce.number(),
-    posterUrl: z.string().url()
-})
+     posterUrl: z.string().regex(/^https?:\/\/.+$/, {
+        message: "Tautan harus berupa URL yang valid (http:// atau https://)"
+})  })
 
 export async function SubmitForm(prev:any, formData: FormData) {
     const parsed = Schema.safeParse({
@@ -28,9 +29,17 @@ export async function SubmitForm(prev:any, formData: FormData) {
     
     if (!parsed.success) {
         // throw new Error("Error");
-        return{errors: parsed.error.flatten().fieldErrors
-        };
-    }
+        return{errors: parsed.error.flatten().fieldErrors,
+      fields: {
+            title: formData.get('title') as string,
+            description: formData.get('description') as string,
+            duration: formData.get('duration') as string,
+            rating: formData.get('rating') as string,
+            releaseYear: formData.get('releaseYear') as string,
+            posterUrl: formData.get('posterUrl') as string,
+        }
+    };
+}
    try {
         const { title, description, duration, rating, releaseYear, posterUrl } = parsed.data;
 
@@ -65,6 +74,7 @@ export async function updateMovie(id: number, formData: FormData) {
         data: {
             title: String(formData.get("title")),
             rating: Number(formData.get("rating")),
+            duration: Number(formData.get("duration")),
             description: String(formData.get("description") ?? "") || null,
         },
     });

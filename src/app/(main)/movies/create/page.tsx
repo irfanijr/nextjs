@@ -7,6 +7,7 @@ export default function CreateMoviePage() {
   const [state, action, pending] = useActionState(SubmitForm, null);
 
   const errors = state?.errors;
+  const fields = state?.fields;
 
   return (
     <div className="p-8 max-w-md mx-auto bg-white rounded-2xl border border-slate-100 shadow-sm mt-10">
@@ -24,6 +25,7 @@ export default function CreateMoviePage() {
             type="text"
             placeholder="Masukkan judul film..."
             disabled={pending}
+            defaultValue={fields?.title ?? ""}
             className="px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:outline-indigo-500 disabled: bg-slate-50 "
           />
           {errors && "title" in errors && errors.title && (
@@ -42,6 +44,7 @@ export default function CreateMoviePage() {
             rows={3}
             placeholder="Cerita singkat film..."
             disabled={pending}
+            defaultValue={fields?.description ?? ""}
             className="px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:outline-indigo-500 disabled: bg-slate-50 "
           />
           {errors && "description" in errors && errors.description && (
@@ -61,6 +64,7 @@ export default function CreateMoviePage() {
               type="text"
               placeholder="Contoh: 60"
               disabled={pending}
+              defaultValue={fields?.duration ?? ""}
               className="px-3.5 py-2  border border-slate-300 rounded-xl text-sm focus:outline-indigo-500 disabled:bg-slate-50"
             />
             {errors && "duration" in errors && errors.duration && (
@@ -75,9 +79,13 @@ export default function CreateMoviePage() {
             </label>
             <input
               name="rating"
-              type="text"
+              type="number"
+              step="0.1" 
+              max="10"
+              min="1"
               placeholder="Contoh: 9.6"
               disabled={pending}
+              defaultValue={fields?.rating ?? ""}
               className="px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:outline-indigo-500 disabled:bg-slate-50"
             />
             {errors && "rating" in errors && errors.rating && (
@@ -96,6 +104,7 @@ export default function CreateMoviePage() {
             type="text"
             placeholder="Contoh: 2024"
             disabled={pending}
+            defaultValue={fields?.releaseYear ?? ""}
             className="px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:outline-indigo-500 disabled:bg-slate-50"
           />
           {errors && "releaseYear" in errors && errors.releaseYear && (
@@ -111,9 +120,10 @@ export default function CreateMoviePage() {
           </label>
           <input
             type="text"
-            name="posteUrl"
-            placeholder="https://encrypt.com..."
+            name="posterUrl"
+            placeholder="https://example.com"
             disabled={pending}
+            defaultValue={fields?.posterUrl ?? ""}
             className="px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:outline-indigo-500 disabled:bg-slate-50"
           />
           {errors && "posterUrl" in errors && errors.posterUrl && (
